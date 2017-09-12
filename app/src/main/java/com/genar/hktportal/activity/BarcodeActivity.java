@@ -1,4 +1,4 @@
-package com.genar.hktportal;
+package com.genar.hktportal.activity;
 
 import android.Manifest;
 import android.content.Intent;
@@ -10,6 +10,7 @@ import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.genar.hktportal.R;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;

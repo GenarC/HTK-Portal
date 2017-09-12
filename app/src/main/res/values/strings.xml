@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HTKPortal</string>
+    <string name="login_btngiris">Giriş</string>
 </resources>
