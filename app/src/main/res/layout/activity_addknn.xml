@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.genar.hktportal.activity.AddKnnActivity"
+    android:orientation="vertical">
+
+
+    <Button
+        android:id="@+id/addknn_btnmakine"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Barkod Oku"
+        app:layout_constraintRight_toRightOf="@+id/addknn_btnoperator"
+        app:layout_constraintBaseline_toBaselineOf="@+id/addknn_etmakine" />
+
+
+    <EditText
+        android:id="@+id/addknn_etmakine"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="16dp"
+        android:enabled="false"
+        android:hint="Makine Barkod"
+        app:layout_constraintLeft_toLeftOf="@+id/addknn_etoperator"
+        app:layout_constraintRight_toLeftOf="@+id/addknn_btnmakine"
+        app:layout_constraintTop_toBottomOf="@+id/addknn_etoperator"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <EditText
+        android:id="@+id/addknn_etoperator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:enabled="false"
+        android:hint="Operator barkod"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/addknn_btnoperator"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/addknn_spinnerbolumS" />
+
+    <Button
+        android:id="@+id/addknn_btnoperator"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Barkod Oku"
+        android:enabled="false"
+        app:layout_constraintBaseline_toBaselineOf="@+id/addknn_etoperator"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="16dp" />
+
+    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+        android:id="@+id/addknn_btnknnkaydet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Knn Kaydet"
+        android:background="@drawable/button_background"
+        app:spinning_bar_width="4dp"
+        app:spinning_bar_color="#FFF"
+        app:spinning_bar_padding="6dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintHorizontal_bias="0.501"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@+id/addknn_etaciklama" />
+
+    <Spinner
+        android:id="@+id/addknn_spinnerbolumP"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Spinner
+        android:id="@+id/addknn_spinnerbolumS"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/addknn_spinnerbolumP"
+        android:layout_marginRight="0dp"
+        app:layout_constraintRight_toRightOf="@+id/addknn_spinnerbolumP"
+        android:layout_marginLeft="0dp"
+        app:layout_constraintLeft_toLeftOf="@+id/addknn_spinnerbolumP" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bölüm Seç"
+        android:textSize="16sp"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="32dp" />
+
+    <EditText
+        android:hint="Açıklma ekle"
+        android:id="@+id/addknn_etaciklama"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="32dp"
+        android:ems="10"
+        android:minLines="1"
+        android:maxLines="3"
+        android:gravity="top|left"
+        android:scrollbars="vertical"
+        android:inputType="textMultiLine"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addknn_etmakine"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+
+</android.support.constraint.ConstraintLayout>

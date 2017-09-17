@@ -1,46 +1,66 @@
 package com.genar.hktportal.activity;
 
-import android.content.Intent;
-import android.os.Bundle;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.genar.hktportal.R;
-import com.google.android.gms.common.api.CommonStatusCodes;
-import com.google.android.gms.vision.barcode.Barcode;
+import com.genar.hktportal.helper.Utils;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
 
-    TextView barcodeResult;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+
+public class MainActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks {
+
+    private static final int CAMERA_REQUEST = 1457;
+    @BindView(R.id.main_btnaddknn)
+    Button btnAddKnn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        barcodeResult = (TextView) findViewById(R.id.tv_result);
+        ButterKnife.bind(this);
     }
-    public void scanBarcode(View v){
-        Intent intent = new Intent(this,BarcodeActivity.class);
-        startActivityForResult(intent,0);
+
+    @OnClick({R.id.main_btnaddknn})
+    public void onItemClick(View v) {
+        switch(v.getId()){
+            case R.id.main_btnaddknn:
+                cameraPermissionRequest();
+                break;
+        }
+    }
+
+    @AfterPermissionGranted(CAMERA_REQUEST)
+    private void cameraPermissionRequest() {
+        if (EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA)) {
+            Utils.startActivityWithoutFinish(this, AddKnnActivity.class);
+        } else {
+            // Request one permission
+            EasyPermissions.requestPermissions(this, getString(R.string.rationale_camera),
+                    CAMERA_REQUEST, Manifest.permission.CAMERA);
+        }
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode==0){
-            if(resultCode == CommonStatusCodes.SUCCESS){
-                if(data != null){
-                    Barcode barcode = data.getParcelableExtra("BarcodeActivity");
-                    barcodeResult.setText(barcode.displayValue);
-                }else{
-                    barcodeResult.setText("Barkod bulunamadı");
-                }
-            }
-        }else{
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        Utils.startActivityWithoutFinish(this, AddKnnActivity.class);
+    }
 
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+            Toast.makeText(this, "Bu özelliği kullanmak için kamera izni gerekiyor.", Toast.LENGTH_SHORT).show();
     }
 }

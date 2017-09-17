@@ -21,7 +21,6 @@ import java.io.IOException;
 
 public class BarcodeActivity extends AppCompatActivity {
 
-    private static final int CAMERA_REQUEST = 1457;
     SurfaceView cameraPreview;
 
     @Override
@@ -44,26 +43,14 @@ public class BarcodeActivity extends AppCompatActivity {
 
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
-                if (ActivityCompat.checkSelfPermission(BarcodeActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
+                if (ActivityCompat.checkSelfPermission(BarcodeActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                    try {
+                        cameraSource.start(cameraPreview.getHolder());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-                    ActivityCompat.requestPermissions(BarcodeActivity.this, new String[] {Manifest.permission.CAMERA}, CAMERA_REQUEST);
-
-                    return;
                 }
-
-                try {
-                    cameraSource.start(cameraPreview.getHolder());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
             }
             @Override
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
@@ -87,13 +74,13 @@ public class BarcodeActivity extends AppCompatActivity {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                 if(barcodes.size()==1){
                     Intent intent = new Intent();
-                    intent.putExtra("BarcodeActivity",barcodes.valueAt(0));
+                    intent.putExtra("Barcode",barcodes.valueAt(0));
 
                     setResult(CommonStatusCodes.SUCCESS,intent);
                     finish();
                 }else if(barcodes.size()==2){
                     Intent intent = new Intent();
-                    intent.putExtra("BarcodeActivity",barcodes.valueAt(1));
+                    intent.putExtra("Barcode",barcodes.valueAt(1));
 
                     setResult(CommonStatusCodes.SUCCESS,intent);
                     finish();
