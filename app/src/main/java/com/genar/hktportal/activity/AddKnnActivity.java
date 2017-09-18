@@ -141,13 +141,12 @@ public class AddKnnActivity extends AppCompatActivity{
 
     private void knnKaydet(){
         btnKnnKaydet.startAnimation();
-        setButtonsEnabled(false);
+
         Runnable r = new Runnable() {
             @Override
             public void run(){
                 if(checkInputs()){
-
-                    Toast.makeText(AddKnnActivity.this, "Başarılı", Toast.LENGTH_SHORT).show();
+                    setButtonsEnabled(false);
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl("http://www.genar.net/")
                             .addConverterFactory(GsonConverterFactory.create())
@@ -155,7 +154,13 @@ public class AddKnnActivity extends AppCompatActivity{
 
                     KnnApi service = retrofit.create(KnnApi.class);
 
-                    Call<KnnResponse> knnResult = service.knnResponse("knnEkle",etOperatorBarkod.getText().toString(), Long.toString(new Date().getTime()),makineNoListeS.get(spBolumS.getSelectedItemPosition()-1),etMakineBarkod.getText().toString(),"gorevDeneme",etAciklama.getText().toString());
+                    Call<KnnResponse> knnResult = service.knnResponse("knnEkle",
+                            etOperatorBarkod.getText().toString(),
+                            Long.toString(new Date().getTime()/1000),
+                            makineNoListeS.get(spBolumS.getSelectedItemPosition()-1),
+                            etMakineBarkod.getText().toString(),
+//                            "gorevDeneme",
+                            etAciklama.getText().toString());
 
                     knnResult.enqueue(new Callback<KnnResponse>() {
                         @Override
@@ -165,7 +170,7 @@ public class AddKnnActivity extends AppCompatActivity{
                                 btnKnnKaydet.revertAnimation();
                                 clearInputs();
                             }else{
-                                Toast.makeText(AddKnnActivity.this, "Veri kaydı gerçekleşemedi, lütfen tekrar deneyin.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddKnnActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                                 btnKnnKaydet.revertAnimation();
                                 setButtonsEnabled(true);
                             }
@@ -180,7 +185,8 @@ public class AddKnnActivity extends AppCompatActivity{
                         }
                     });
                 }else{
-                    Toast.makeText(AddKnnActivity.this, "Tum verileri doldurmanız gerekli.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddKnnActivity.this, "Tüm verileri doldurmanız gerekli.", Toast.LENGTH_SHORT).show();
+                    btnKnnKaydet.revertAnimation();
                 }
 
             }
@@ -257,6 +263,7 @@ public class AddKnnActivity extends AppCompatActivity{
         btnKnnKaydet.setEnabled(status);
         btnMakine.setEnabled(status);
         btnOperator.setEnabled(status);
+        etAciklama.setEnabled(status);
     }
 
     private void clearInputs(){
@@ -265,6 +272,7 @@ public class AddKnnActivity extends AppCompatActivity{
         spBolumS.setEnabled(false);
         etOperatorBarkod.setText("");
         etMakineBarkod.setText("");
+        etAciklama.setText("");
         setButtonsEnabled(false);
     }
 

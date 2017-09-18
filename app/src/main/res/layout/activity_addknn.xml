@@ -116,8 +116,8 @@
         android:layout_marginTop="32dp" />
 
     <EditText
-        android:hint="Açıklma ekle"
         android:id="@+id/addknn_etaciklama"
+        android:hint="Açıklama ekle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
