@@ -57,12 +57,16 @@ public class AddKnnActivity extends AppCompatActivity{
 
     List<Makine> makineList = new ArrayList<>();
 
-    ArrayList<String> makineİsimListeP = new ArrayList<>();
+    ArrayList<String> makineIsimListeP = new ArrayList<>();
     ArrayList<String> makineNoListeP =new ArrayList<>();
 
-    ArrayList<String> makineİsimListeS = new ArrayList<>();
+    ArrayList<String> makineIsimListeS = new ArrayList<>();
     ArrayList<String> makineNoListeS =new ArrayList<>();
 
+
+    //
+    // php ye yaz
+    // echo(asdasdasdas, JSON_UNESCAPED_UNICODE)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,16 +81,16 @@ public class AddKnnActivity extends AppCompatActivity{
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(position != 0){
-                    makineİsimListeS.clear();
+                    makineIsimListeS.clear();
                     makineNoListeS.clear();
-                    makineİsimListeS.add("Lütfen alt bölüm seçin.");
+                    makineIsimListeS.add("Lütfen alt bölüm seçin.");
                     for (Makine m: makineList){
                         if(m.getUst().equals(makineNoListeP.get(position-1))){
-                            makineİsimListeS.add(m.getAdi());
+                            makineIsimListeS.add(m.getAdi());
                             makineNoListeS.add(m.getNo());
                         }
                     }
-                    setAdapterContent(spBolumS, makineİsimListeS);
+                    setAdapterContent(spBolumS, makineIsimListeS);
                     spBolumS.setEnabled(true);
                 }
             }
@@ -235,11 +239,11 @@ public class AddKnnActivity extends AppCompatActivity{
             public void onResponse(Call<MakineResponse> call, Response<MakineResponse> response) {
                 if(response.body().getSuccess() == 1){
                     makineList = response.body().getMakineler();
-                    makineİsimListeP.add("Lütfen ana bölüm seçin");
+                    makineIsimListeP.add("Lütfen ana bölüm seçin");
 
                     for (Makine m: makineList){
                         if(m.getUst().equals("0")){
-                            makineİsimListeP.add(m.getAdi());
+                            makineIsimListeP.add(m.getAdi());
                             makineNoListeP.add(m.getNo());
                         }
                     }
@@ -267,7 +271,7 @@ public class AddKnnActivity extends AppCompatActivity{
     }
 
     private void clearInputs(){
-        setAdapterContent(spBolumP, makineİsimListeP);
+        setAdapterContent(spBolumP, makineIsimListeP);
         spBolumS.setAdapter(null);
         spBolumS.setEnabled(false);
         etOperatorBarkod.setText("");
