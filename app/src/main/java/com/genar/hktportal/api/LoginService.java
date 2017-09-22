@@ -7,7 +7,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
-public interface LoginApi {
+public interface LoginService {
 
     @FormUrlEncoded
     @POST("cem/hktportal/db_functions.php")

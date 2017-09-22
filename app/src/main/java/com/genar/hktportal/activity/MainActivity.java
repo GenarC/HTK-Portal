@@ -1,5 +1,6 @@
 package com.genar.hktportal.activity;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,11 +14,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.genar.hktportal.R;
+import com.genar.hktportal.helper.Utils;
+
+import java.util.List;
+
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, EasyPermissions.PermissionCallbacks {
+
+    private static final int CAMERA_REQUEST = 1457;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +66,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
@@ -75,7 +86,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -84,17 +95,10 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.menu_knnekle) {
-            startActivity(new Intent(MainActivity.this, trialMainActivity.class));
-            finish();
-        } else if (id == R.id.nav_gallery) {
+            cameraPermissionRequest();
+        } else if (id == R.id.nav_btn1) {
 
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_btn2) {
 
         }
 
@@ -102,4 +106,26 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    @AfterPermissionGranted(CAMERA_REQUEST)
+    private void cameraPermissionRequest() {
+        if (EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA)) {
+            Utils.startActivityWithoutFinish(this, AddKnnActivity.class);
+        } else {
+            // Request one permission
+            EasyPermissions.requestPermissions(this, getString(R.string.rationale_camera),
+                    CAMERA_REQUEST, Manifest.permission.CAMERA);
+        }
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        Utils.startActivityWithoutFinish(this, AddKnnActivity.class);
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        Toast.makeText(this, "Bu özelliği kullanmak için kamera izni gerekiyor.", Toast.LENGTH_SHORT).show();
+    }
+
 }

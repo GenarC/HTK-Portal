@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.genar.hktportal.R;
-import com.genar.hktportal.api.LoginApi;
+import com.genar.hktportal.api.LoginService;
 import com.genar.hktportal.helper.Utils;
 import com.genar.hktportal.response.LoginResponse;
 
@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
 
-                LoginApi service = retrofit.create(LoginApi.class);
+                LoginService service = retrofit.create(LoginService.class);
 
                 Call<LoginResponse> loginResult = service.login("login", etRegistryNo.getText().toString(), etPassword.getText().toString());
 
@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         if(response.body().getSuccess() == 1){
                             Utils.setCurrentRegistryNo( etRegistryNo.getText().toString());
-                            startActivity(new Intent(LoginActivity.this, trialMainActivity.class));
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                         }else{
                             Toast.makeText(LoginActivity.this, "Giriş verileri hatalı, tekrar deneyin.", Toast.LENGTH_SHORT).show();

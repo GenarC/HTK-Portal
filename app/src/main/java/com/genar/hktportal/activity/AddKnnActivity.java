@@ -13,8 +13,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.genar.hktportal.R;
-import com.genar.hktportal.api.KnnApi;
-import com.genar.hktportal.api.MakineApi;
+import com.genar.hktportal.api.KnnService;
+import com.genar.hktportal.api.MakineService;
 import com.genar.hktportal.helper.Utils;
 import com.genar.hktportal.model.Makine;
 import com.genar.hktportal.response.KnnResponse;
@@ -156,7 +156,7 @@ public class AddKnnActivity extends AppCompatActivity{
                             .addConverterFactory(GsonConverterFactory.create())
                             .build();
 
-                    KnnApi service = retrofit.create(KnnApi.class);
+                    KnnService service = retrofit.create(KnnService.class);
 
                     Call<KnnResponse> knnResult = service.knnResponse("knnEkle",
                             etOperatorBarkod.getText().toString(),
@@ -230,7 +230,7 @@ public class AddKnnActivity extends AppCompatActivity{
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        MakineApi service = retrofit.create(MakineApi.class);
+        MakineService service = retrofit.create(MakineService.class);
 
         Call<MakineResponse> makineResult = service.makineListesiGetir("makineListesi");
 
