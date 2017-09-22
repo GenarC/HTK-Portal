@@ -22,23 +22,23 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.genar.hktportal.activity.MainActivity" />
         </activity>
-        <activity android:name=".activity.BarcodeActivity"
-            android:label="@string/ReadBarcode"/>
         <activity
-            android:name=".activity.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".activity.BarcodeActivity"
+            android:label="@string/ReadBarcode" />
+        <activity android:name=".activity.LoginActivity">
 
         </activity>
-        <activity android:name=".activity.trialMainActivity">
-
-        </activity>
+        <activity android:name=".activity.trialMainActivity"></activity>
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
         </activity>
     </application>
 

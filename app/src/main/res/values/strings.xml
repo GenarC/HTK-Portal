@@ -11,4 +11,6 @@
     <string name="AddKnn">Knn Ekle</string>
     <string name="ReadBarcode">Barkod oku</string>
     <string name="Login">Giriş Yap</string>
+    <string name="title_activity_tab">TabActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>
