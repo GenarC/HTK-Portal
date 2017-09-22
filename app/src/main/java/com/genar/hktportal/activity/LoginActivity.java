@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         if(response.body().getSuccess() == 1){
                             Utils.setCurrentRegistryNo( etRegistryNo.getText().toString());
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            startActivity(new Intent(LoginActivity.this, trialMainActivity.class));
                             finish();
                         }else{
                             Toast.makeText(LoginActivity.this, "Giriş verileri hatalı, tekrar deneyin.", Toast.LENGTH_SHORT).show();
