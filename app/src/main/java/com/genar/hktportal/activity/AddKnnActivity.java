@@ -92,6 +92,9 @@ public class AddKnnActivity extends AppCompatActivity{
                     }
                     setAdapterContent(spBolumS, makineIsimListeS);
                     spBolumS.setEnabled(true);
+                }else{
+                    spBolumS.setSelection(0);
+                    spBolumS.setEnabled(false);
                 }
             }
 

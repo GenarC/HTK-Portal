@@ -16,28 +16,25 @@
         <activity
             android:name=".activity.AddKnnActivity"
             android:label="@string/AddKnn"
-            android:parentActivityName=".activity.trialMainActivity"
+            android:parentActivityName=".activity.MainTabActivity"
             android:windowSoftInputMode="stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.genar.hktportal.activity.MainActivity" />
+                android:value="com.genar.hktportal.activity.MainTabActivity" />
         </activity>
-        <activity android:name=".activity.BarcodeActivity"
-            android:label="@string/ReadBarcode"/>
         <activity
-            android:name=".activity.LoginActivity">
+            android:name=".activity.BarcodeActivity"
+            android:label="@string/ReadBarcode" />
+        <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-        </activity>
-        <activity android:name=".activity.trialMainActivity">
-
         </activity>
         <activity
-            android:name=".activity.MainActivity"
-            android:label="@string/title_activity_main"
+            android:name=".activity.MainTabActivity"
+            android:label="@string/title_activity_main_tab"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
