@@ -27,6 +27,8 @@ import com.genar.hktportal.helper.Utils;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -36,13 +38,20 @@ public class MainActivity extends AppCompatActivity
     private static final int CAMERA_REQUEST = 1457;
 
     private MainActivity.SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
+
+
+    @BindView(R.id.container)
+    ViewPager mViewPager;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
 
         //SideNavigation
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -57,7 +66,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -71,9 +79,6 @@ public class MainActivity extends AppCompatActivity
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new MainActivity.SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -82,7 +87,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -126,7 +130,6 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -154,19 +157,12 @@ public class MainActivity extends AppCompatActivity
 
 
     public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
+
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public PlaceholderFragment() {
         }
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         public static MainActivity.PlaceholderFragment newInstance(int sectionNumber) {
             MainActivity.PlaceholderFragment fragment = new MainActivity.PlaceholderFragment();
             Bundle args = new Bundle();
@@ -212,11 +208,11 @@ public class MainActivity extends AppCompatActivity
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "SECTION 1";
+                    return "Top 10";
                 case 1:
-                    return "SECTION 2";
+                    return "Top 10-20";
                 case 2:
-                    return "SECTION 3";
+                    return "Top 20-30";
             }
             return null;
         }
