@@ -9,6 +9,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import android.support.v4.app.Fragment;
@@ -26,14 +28,42 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.genar.hktportal.R;
+import com.genar.hktportal.adapter.HataAdapter;
 import com.genar.hktportal.helper.Utils;
+import com.genar.hktportal.model.HataModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 public class MainTabActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener, EasyPermissions.PermissionCallbacks{
+
+    ArrayList<HataModel> hataListTab1 = new ArrayList<>();
+    ArrayList<HataModel> hataListTab2 = new ArrayList<>();
+    ArrayList<HataModel> hataListTab3 = new ArrayList<>();
+
+
+    public void init(){
+
+        hataListTab1.add(new HataModel("İp Kaçırma", 16));
+        hataListTab1.add(new HataModel("Elektrik arızası", 13));
+        hataListTab1.add(new HataModel("İğne kırılması", 12));
+        hataListTab1.add(new HataModel("Kumaş boyama",9));
+
+        hataListTab2.add(new HataModel("Cem Yanar", 13));
+        hataListTab2.add(new HataModel("Nedim Yener", 8));
+        hataListTab2.add(new HataModel("Ayşe Güneş", 7));
+        hataListTab2.add(new HataModel("Veli Arslan",5));
+
+        hataListTab3.add(new HataModel("356 HB", 32));
+        hataListTab3.add(new HataModel("356 SW", 24));
+        hataListTab3.add(new HataModel("356 Sedan", 12));
+        hataListTab3.add(new HataModel("356 Default",11));
+    }
+
+
 
     private static final int CAMERA_REQUEST = 1457;
     /**
@@ -55,6 +85,9 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tab);
+
+        init();
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -130,19 +163,21 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
          * The fragment argument representing the section number for this
          * fragment.
          */
+
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         public PlaceholderFragment() {
         }
 
+
         /**
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
+        public static PlaceholderFragment newInstance(int sectionNumber,ArrayList<HataModel> list) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            args.putParcelableArrayList("hataList",list);
             fragment.setArguments(args);
             return fragment;
         }
@@ -151,8 +186,25 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main_tab, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+
+            RecyclerView rvHataList;
+            rvHataList = (RecyclerView) rootView.findViewById(R.id.hatalist_recyclerview);
+
+            ArrayList<HataModel> hataList = getArguments().getParcelableArrayList("hataList");
+
+            /*ArrayList<HataModel> hataList = new ArrayList<>();
+            hataList.add(new HataModel("İp Kaçırma", 6));
+            hataList.add(new HataModel("Elektrik arızası", 3));
+            hataList.add(new HataModel("İğne kırılması", 2));
+            hataList.add(new HataModel("Kumaş boyama",1));*/
+
+
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+            rvHataList.setLayoutManager(layoutManager);
+            HataAdapter hataAdapter = new HataAdapter (hataList,getActivity());
+            rvHataList.setAdapter(hataAdapter);
+
+
             return rootView;
         }
     }
@@ -169,28 +221,32 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            ArrayList<HataModel> list = new ArrayList<>();
+            if (position == 0){
+                list = hataListTab1;
+            }else if(position == 1){
+                list = hataListTab2;
+            }else{
+                list = hataListTab3;
+            }
+            return PlaceholderFragment.newInstance(position + 1, list);
         }
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 4;
+            return 3;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Sayfa 1";
+                    return "Top 10 Hata";
                 case 1:
-                    return "Sayfa 2";
+                    return "Top 10 Operator";
                 case 2:
-                    return "Sayfa 3";
-                case 3:
-                    return "Sayfa 4";
+                    return "Top 10 Bölüm";
             }
             return null;
         }

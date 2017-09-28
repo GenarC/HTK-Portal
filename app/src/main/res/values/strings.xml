@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HKT Portal</string>
+    <string name="app_name"> Hata Kayıt Takip Sistemi</string>
     <string name="login_btngiris">Giriş</string>
     <string name="rationale_camera">Bu işlem için kamera izni gerekiyor.</string>
     <string name="title_activity_main">Ana Sayfa</string>
