@@ -1,6 +1,7 @@
 package com.genar.hktportal.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -22,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.genar.hktportal.GlobalApplicaiton;
@@ -52,37 +54,6 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
     List<Hata> hataListTopOperator = new ArrayList<>();
     List<Hata> hataListTopBolum = new ArrayList<>();
 
-
-    /*public void hatalariGetir(){
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://www.genar.net/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        HataService service = retrofit.create(HataService.class);
-
-        Call<HataResponse> hataResult = service.hataResponse("topXHata",5);
-
-        hataResult.enqueue(new Callback<HataResponse>() {
-            @Override
-            public void onResponse(Call<HataResponse> call, Response<HataResponse> response) {
-                if(response.body().getSuccess() == 1){
-                    hataListTopOperator = response.body().getHatalarOperator();
-                    hataListTopBolum = response.body().getHatalarBolum();
-                    hataListTop = response.body().getHatalarMost();
-
-                }else{
-                    Toast.makeText(MainTabActivity.this, "Hata listeleri alınamadı, daha sonra tekrar deneyin.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<HataResponse> call, Throwable t) {
-
-            }
-        });
-    }*/
 
     private static final int CAMERA_REQUEST = 1457;
     /**
@@ -132,15 +103,6 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-
     }
 
     @Override
@@ -163,13 +125,9 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_refresh) {
             return true;
         }
 
@@ -180,25 +138,19 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
 
-        private static final String ARG_SECTION_NUMBER = "section_number";
+        public ArrayList<Hata> hataList;
+        private int position;
+        private Button btnRefresh;
 
         public PlaceholderFragment() {
         }
 
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         public static PlaceholderFragment newInstance(int sectionNumber,ArrayList<Hata> list) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putParcelableArrayList("hataList",list);
+            args.putInt("pos",sectionNumber);
             fragment.setArguments(args);
             return fragment;
         }
@@ -208,18 +160,54 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main_tab, container, false);
 
-            RecyclerView rvHataList;
-            rvHataList = (RecyclerView) rootView.findViewById(R.id.hatalist_recyclerview);
 
-            ArrayList<Hata> hataList = getArguments().getParcelableArrayList("hataList");
+            RecyclerView rvHataList = (RecyclerView) rootView.findViewById(R.id.hatalist_recyclerview);
+            btnRefresh = (Button) rootView.findViewById(R.id.btnyenile);
 
+            hataList = getArguments().getParcelableArrayList("hataList");
+            position = getArguments().getInt("pos");
 
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
             rvHataList.setLayoutManager(layoutManager);
-            HataAdapter hataAdapter = new HataAdapter (hataList,getActivity());
+            final HataAdapter hataAdapter = new HataAdapter (hataList,getActivity(),position);
             rvHataList.setAdapter(hataAdapter);
 
 
+            btnRefresh.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl("http://www.genar.net/")
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+
+                    HataService service = retrofit.create(HataService.class);
+
+                    Call<HataResponse> hataResult = service.hataResponse("topXHata",GlobalApplicaiton.TOP_LIST_COUNT);
+
+                    hataResult.enqueue(new Callback<HataResponse>() {
+                        @Override
+                        public void onResponse(Call<HataResponse> call, Response<HataResponse> response) {
+                            if(response.body().getSuccess() == 3){
+                                if(position == 0){
+                                    hataList = (ArrayList<Hata>) response.body().getHatalarMost();
+                                }else if(position == 1){
+                                    hataList = (ArrayList<Hata>) response.body().getHatalarOperator();
+                                }else{
+                                    hataList = (ArrayList<Hata>) response.body().getHatalarBolum();
+                                }
+                                hataAdapter.refreshList(hataList);
+                            }else{
+                                Toast.makeText(getContext(), "Hata listesi alınırken hata oluştu, daha sonra tekrar deneyin.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<HataResponse> call, Throwable t) {
+
+                        }
+                    });
+                }
+            });
             return rootView;
         }
     }
@@ -244,7 +232,7 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
             }else{
                 list = hataListTopBolum;
             }
-            return PlaceholderFragment.newInstance(position + 1, (ArrayList<Hata>) list);
+            return PlaceholderFragment.newInstance(position, (ArrayList<Hata>) list);
         }
 
         @Override
@@ -291,7 +279,6 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
         if (EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA)) {
             Utils.startActivityWithoutFinish(this, AddKnnActivity.class);
         } else {
-            // Request one permission
             EasyPermissions.requestPermissions(this, getString(R.string.rationale_camera),
                     CAMERA_REQUEST, Manifest.permission.CAMERA);
         }
@@ -306,5 +293,4 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
     public void onPermissionsDenied(int requestCode, List<String> perms) {
         Toast.makeText(this, "Bu özelliği kullanmak için kamera izni gerekiyor.", Toast.LENGTH_SHORT).show();
     }
-
 }

@@ -1,32 +1,44 @@
 package com.genar.hktportal.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.genar.hktportal.GlobalApplicaiton;
 import com.genar.hktportal.R;
+import com.genar.hktportal.activity.LoginActivity;
+import com.genar.hktportal.activity.MainTabActivity;
+import com.genar.hktportal.api.HataService;
 import com.genar.hktportal.model.Hata;
+import com.genar.hktportal.response.HataResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-/**
- * Created by cm_gn on 9/27/2017.
- */
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HataAdapter extends RecyclerView.Adapter<HataAdapter.HataViewHolder>{
 
     private ArrayList<Hata> hataList;
     private Context context;
+    private int pos;
 
-    public HataAdapter(ArrayList<Hata> appList, Context context) {
+    public HataAdapter(ArrayList<Hata> appList, Context context, int pos) {
         this.hataList = appList;
         this.context = context;
+        this.pos = pos;
     }
 
     @Override
@@ -46,12 +58,13 @@ public class HataAdapter extends RecyclerView.Adapter<HataAdapter.HataViewHolder
 //        animate(holder."mainContainerLayout",position);
     }
 
-    /*private void animate(View view, final int pos) {
-        view.animate().cancel();
-        view.setTranslationY(100);
-        view.setAlpha(0);
-        view.animate().alpha(1.0f).translationY(0).setDuration(500).setStartDelay(pos * 100);
-    }*/
+    public void refreshList(ArrayList<Hata> list){
+        hataList = list;
+        this.notifyDataSetChanged();
+    }
+
+
+
 
     @Override
     public int getItemCount() {

@@ -34,6 +34,7 @@
         <activity
             android:name=".activity.MainTabActivity"
             android:label="@string/title_activity_main_tab"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>

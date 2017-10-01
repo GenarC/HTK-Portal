@@ -138,8 +138,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-
-
     public void hatalariGetir(){
 
         Retrofit retrofit = new Retrofit.Builder()
