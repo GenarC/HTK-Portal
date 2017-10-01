@@ -1,19 +1,14 @@
 package com.genar.hktportal.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.genar.hktportal.R;
-import com.genar.hktportal.model.HataModel;
+import com.genar.hktportal.model.Hata;
 
 import java.util.ArrayList;
 
@@ -26,10 +21,10 @@ import butterknife.ButterKnife;
 
 public class HataAdapter extends RecyclerView.Adapter<HataAdapter.HataViewHolder>{
 
-    private ArrayList<HataModel> hataList;
+    private ArrayList<Hata> hataList;
     private Context context;
 
-    public HataAdapter(ArrayList<HataModel> appList, Context context) {
+    public HataAdapter(ArrayList<Hata> appList, Context context) {
         this.hataList = appList;
         this.context = context;
     }
@@ -42,11 +37,11 @@ public class HataAdapter extends RecyclerView.Adapter<HataAdapter.HataViewHolder
 
     @Override
     public void onBindViewHolder(final HataViewHolder holder, int position) {
-        final HataModel hata = hataList.get(position);
+        final Hata hata = hataList.get(position);
 
         holder.tvNo.setText(String.valueOf(position+1));
         holder.tvText.setText(hata.getHataText());
-        holder.tvAdet.setText(String.valueOf(hata.getAdet()));
+        holder.tvAdet.setText(hata.getToplamHata());
 
 //        animate(holder."mainContainerLayout",position);
     }

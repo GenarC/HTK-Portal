@@ -11,6 +11,6 @@
     <string name="AddKnn">Knn Ekle</string>
     <string name="ReadBarcode">Barkod oku</string>
     <string name="Login">Giriş Yap</string>
-    <string name="title_activity_main_tab">Top 10</string>
+    <string name="title_activity_main_tab">Top Listeleri</string>
     <string name="section_format">Top listeleri sayfası: %1$d</string>
 </resources>

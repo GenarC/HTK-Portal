@@ -139,11 +139,7 @@ public class AddKnnActivity extends AppCompatActivity{
     }
 
     private boolean checkInputs(){
-        if(etOperatorBarkod.getText().toString().length() != 0 && etMakineBarkod.getText().toString().length() != 0){
-            return true;
-        }else{
-            return false;
-        }
+        return (etOperatorBarkod.getText().toString().length() != 0 && etMakineBarkod.getText().toString().length() != 0);
     }
 
     private void knnKaydet(){
@@ -181,7 +177,6 @@ public class AddKnnActivity extends AppCompatActivity{
                                 btnKnnKaydet.revertAnimation();
                                 setButtonsEnabled(true);
                             }
-
                         }
 
                         @Override
@@ -195,7 +190,6 @@ public class AddKnnActivity extends AppCompatActivity{
                     Toast.makeText(AddKnnActivity.this, "Tüm verileri doldurmanız gerekli.", Toast.LENGTH_SHORT).show();
                     btnKnnKaydet.revertAnimation();
                 }
-
             }
         };
 
@@ -275,7 +269,7 @@ public class AddKnnActivity extends AppCompatActivity{
 
     private void clearInputs(){
         setAdapterContent(spBolumP, makineIsimListeP);
-        spBolumS.setAdapter(null);
+        spBolumS.setSelection(0);
         spBolumS.setEnabled(false);
         etOperatorBarkod.setText("");
         etMakineBarkod.setText("");

@@ -3,8 +3,6 @@ package com.genar.hktportal.activity;
 import android.Manifest;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,46 +22,67 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.genar.hktportal.GlobalApplicaiton;
 import com.genar.hktportal.R;
 import com.genar.hktportal.adapter.HataAdapter;
+import com.genar.hktportal.api.HataService;
+import com.genar.hktportal.api.MakineService;
 import com.genar.hktportal.helper.Utils;
-import com.genar.hktportal.model.HataModel;
+import com.genar.hktportal.model.Hata;
+import com.genar.hktportal.model.Makine;
+import com.genar.hktportal.response.HataResponse;
+import com.genar.hktportal.response.MakineResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainTabActivity extends AppCompatActivity implements  NavigationView.OnNavigationItemSelectedListener, EasyPermissions.PermissionCallbacks{
 
-    ArrayList<HataModel> hataListTab1 = new ArrayList<>();
-    ArrayList<HataModel> hataListTab2 = new ArrayList<>();
-    ArrayList<HataModel> hataListTab3 = new ArrayList<>();
+    List<Hata> hataListTop = new ArrayList<>();
+    List<Hata> hataListTopOperator = new ArrayList<>();
+    List<Hata> hataListTopBolum = new ArrayList<>();
 
 
-    public void init(){
+    /*public void hatalariGetir(){
 
-        hataListTab1.add(new HataModel("İp Kaçırma", 16));
-        hataListTab1.add(new HataModel("Elektrik arızası", 13));
-        hataListTab1.add(new HataModel("İğne kırılması", 12));
-        hataListTab1.add(new HataModel("Kumaş boyama",9));
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://www.genar.net/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        hataListTab2.add(new HataModel("Cem Yanar", 13));
-        hataListTab2.add(new HataModel("Nedim Yener", 8));
-        hataListTab2.add(new HataModel("Ayşe Güneş", 7));
-        hataListTab2.add(new HataModel("Veli Arslan",5));
+        HataService service = retrofit.create(HataService.class);
 
-        hataListTab3.add(new HataModel("356 HB", 32));
-        hataListTab3.add(new HataModel("356 SW", 24));
-        hataListTab3.add(new HataModel("356 Sedan", 12));
-        hataListTab3.add(new HataModel("356 Default",11));
-    }
+        Call<HataResponse> hataResult = service.hataResponse("topXHata",5);
 
+        hataResult.enqueue(new Callback<HataResponse>() {
+            @Override
+            public void onResponse(Call<HataResponse> call, Response<HataResponse> response) {
+                if(response.body().getSuccess() == 1){
+                    hataListTopOperator = response.body().getHatalarOperator();
+                    hataListTopBolum = response.body().getHatalarBolum();
+                    hataListTop = response.body().getHatalarMost();
 
+                }else{
+                    Toast.makeText(MainTabActivity.this, "Hata listeleri alınamadı, daha sonra tekrar deneyin.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HataResponse> call, Throwable t) {
+
+            }
+        });
+    }*/
 
     private static final int CAMERA_REQUEST = 1457;
     /**
@@ -86,7 +105,9 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tab);
 
-        init();
+        hataListTop = getIntent().getExtras().getParcelableArrayList("TopList");
+        hataListTopOperator = getIntent().getExtras().getParcelableArrayList("TopOperatorList");
+        hataListTopBolum = getIntent().getExtras().getParcelableArrayList("TopBolumList");
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -174,7 +195,7 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber,ArrayList<HataModel> list) {
+        public static PlaceholderFragment newInstance(int sectionNumber,ArrayList<Hata> list) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putParcelableArrayList("hataList",list);
@@ -190,13 +211,7 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
             RecyclerView rvHataList;
             rvHataList = (RecyclerView) rootView.findViewById(R.id.hatalist_recyclerview);
 
-            ArrayList<HataModel> hataList = getArguments().getParcelableArrayList("hataList");
-
-            /*ArrayList<HataModel> hataList = new ArrayList<>();
-            hataList.add(new HataModel("İp Kaçırma", 6));
-            hataList.add(new HataModel("Elektrik arızası", 3));
-            hataList.add(new HataModel("İğne kırılması", 2));
-            hataList.add(new HataModel("Kumaş boyama",1));*/
+            ArrayList<Hata> hataList = getArguments().getParcelableArrayList("hataList");
 
 
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -221,15 +236,15 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
 
         @Override
         public Fragment getItem(int position) {
-            ArrayList<HataModel> list = new ArrayList<>();
+            List<Hata> list = new ArrayList<>();
             if (position == 0){
-                list = hataListTab1;
+                list = hataListTop;
             }else if(position == 1){
-                list = hataListTab2;
+                list = hataListTopOperator;
             }else{
-                list = hataListTab3;
+                list = hataListTopBolum;
             }
-            return PlaceholderFragment.newInstance(position + 1, list);
+            return PlaceholderFragment.newInstance(position + 1, (ArrayList<Hata>) list);
         }
 
         @Override
@@ -242,11 +257,11 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Top 10 Hata";
+                    return "Top " + GlobalApplicaiton.TOP_LIST_COUNT + " Hata";
                 case 1:
-                    return "Top 10 Operator";
+                    return "Top " + GlobalApplicaiton.TOP_LIST_COUNT + " Operator";
                 case 2:
-                    return "Top 10 Bölüm";
+                    return "Top " + GlobalApplicaiton.TOP_LIST_COUNT + " Bölüm";
             }
             return null;
         }
