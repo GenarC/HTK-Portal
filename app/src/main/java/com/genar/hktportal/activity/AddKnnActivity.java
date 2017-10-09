@@ -54,6 +54,8 @@ public class AddKnnActivity extends AppCompatActivity{
     Spinner spBolumP;
     @BindView(R.id.addknn_spinnerbolumS)
     Spinner spBolumS;
+    @BindView(R.id.addknn_spinneroperation)
+    Spinner spOperator;
 
     List<Makine> makineList = new ArrayList<>();
 
@@ -64,9 +66,17 @@ public class AddKnnActivity extends AppCompatActivity{
     ArrayList<String> makineNoListeS =new ArrayList<>();
 
 
-    //
-    // php ye yaz
-    // echo(asdasdasdas, JSON_UNESCAPED_UNICODE)
+    private ArrayList<String> makeOperatorList(){
+        ArrayList<String> list = new ArrayList<>();
+        list.add("Lütfen operator seçin");
+        list.add("1 - Hazırlık");
+        list.add("2 - Baskı Bezi");
+        list.add("3 - Duvarlama");
+        list.add("4 - Çift İğne");
+        list.add("5 - Plastik");
+
+        return list;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +86,7 @@ public class AddKnnActivity extends AppCompatActivity{
         ButterKnife.bind(this);
 
         makineleriGetir();
+        setAdapterContent(spOperator, makeOperatorList());
 
         spBolumP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
