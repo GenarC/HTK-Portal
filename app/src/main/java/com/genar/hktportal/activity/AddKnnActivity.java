@@ -68,12 +68,12 @@ public class AddKnnActivity extends AppCompatActivity{
 
     private ArrayList<String> makeOperatorList(){
         ArrayList<String> list = new ArrayList<>();
-        list.add("Lütfen operator seçin");
-        list.add("1 - Hazırlık");
-        list.add("2 - Baskı Bezi");
-        list.add("3 - Duvarlama");
-        list.add("4 - Çift İğne");
-        list.add("5 - Plastik");
+        list.add("Lütfen operasyon seçin");
+        list.add("Hazırlık");
+        list.add("Baskı Bezi");
+        list.add("Duvarlama");
+        list.add("Çift İğne");
+        list.add("Plastik");
 
         return list;
     }
