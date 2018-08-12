@@ -76,9 +76,9 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tab);
 
-        hataListTop = getIntent().getExtras().getParcelableArrayList("TopList");
+        /*hataListTop = getIntent().getExtras().getParcelableArrayList("TopList");
         hataListTopOperator = getIntent().getExtras().getParcelableArrayList("TopOperatorList");
-        hataListTopBolum = getIntent().getExtras().getParcelableArrayList("TopBolumList");
+        hataListTopBolum = getIntent().getExtras().getParcelableArrayList("TopBolumList");*/
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -97,7 +97,7 @@ public class MainTabActivity extends AppCompatActivity implements  NavigationVie
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);

@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run(){
 
-                Retrofit retrofit = new Retrofit.Builder()
+                /*Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl("http://www.genar.net/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
@@ -101,7 +101,21 @@ public class LoginActivity extends AppCompatActivity {
                         btnLogin.revertAnimation();
                         enableInputs(true);
                     }
-                });
+                });*/
+
+                String regNo = etRegistryNo.getText().toString();
+                String pass = etPassword.getText().toString();
+
+                if(regNo.contentEquals("12345") && pass.contentEquals("54321")){
+                    Utils.setCurrentRegistryNo( etRegistryNo.getText().toString());
+                    intent = new Intent(LoginActivity.this, MainTabActivity.class);
+                    /*getTopCount();*/
+                    startActivity(intent);
+                }else{
+                    Toast.makeText(LoginActivity.this, "Giriş verileri hatalı, tekrar deneyin.", Toast.LENGTH_SHORT).show();
+                    btnLogin.revertAnimation();
+                    enableInputs(true);
+                }
             }
         };
         Handler h = new Handler();
