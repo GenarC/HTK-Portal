@@ -1,33 +1,20 @@
 package com.genar.hktportal.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.genar.hktportal.GlobalApplicaiton;
 import com.genar.hktportal.R;
-import com.genar.hktportal.activity.LoginActivity;
-import com.genar.hktportal.activity.MainTabActivity;
-import com.genar.hktportal.api.HataService;
 import com.genar.hktportal.model.Hata;
-import com.genar.hktportal.response.HataResponse;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HataAdapter extends RecyclerView.Adapter<HataAdapter.HataViewHolder>{
 

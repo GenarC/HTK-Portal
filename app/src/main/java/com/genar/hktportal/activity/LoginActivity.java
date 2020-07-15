@@ -3,21 +3,19 @@ package com.genar.hktportal.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.genar.hktportal.GlobalApplicaiton;
 import com.genar.hktportal.R;
 import com.genar.hktportal.api.HataService;
-import com.genar.hktportal.api.LoginService;
 import com.genar.hktportal.api.TopCountService;
 import com.genar.hktportal.helper.Utils;
 import com.genar.hktportal.model.Hata;
 import com.genar.hktportal.model.TopCount;
 import com.genar.hktportal.response.HataResponse;
-import com.genar.hktportal.response.LoginResponse;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HTK-Portal.iml" filepath="$PROJECT_DIR$/HTK-Portal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/HTK-Portal-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/HTK-Portal-app.iml" group="HTK-Portal/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Projects-HTK-Portal.iml" filepath="$PROJECT_DIR$/.idea/modules/Projects-HTK-Portal.iml" group="HTK-Portal" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
